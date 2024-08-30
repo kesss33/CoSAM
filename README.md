@@ -37,7 +37,7 @@ Pre-trained HQ-SAM Decoder
 https://drive.google.com/file/d/1cwieLjTZZCYcTdzYvOKq2UC__e_B9QN9/view?usp=drive_link
 
 ## Train
-![Learning to Adapt](figures/architecture4.png)
+
 
 ```bash
 # Naive (sequential adaptation)
@@ -56,6 +56,7 @@ python -m torch.distributed.launch --nproc_per_node=1 train_CL.py --CLmethod l2p
 python -m torch.distributed.launch --nproc_per_node=1 train_adapter_pool.py --buffer_size 10
 
 ```
+![Learning to Adapt](figures/architecture3.png)
 ## Evaluate
 ```bash
 # L2P
