@@ -651,7 +651,7 @@ if __name__ == "__main__":
     net = MaskDecoderHQ(args.model_type)
     net.cuda()
     net = torch.nn.parallel.DistributedDataParallel(net, device_ids=[args.gpu], find_unused_parameters=args.find_unused_params)
-    net.module.load_state_dict(torch.load('work_dirs/hq_sam_b/epoch_11.pth'))
+    net.module.load_state_dict(torch.load('./pretrained_checkpoint/pretrain_maskDecoderHQ.pth'))
     
 
 

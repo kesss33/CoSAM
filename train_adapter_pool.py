@@ -163,7 +163,7 @@ def main(adapter_pool, train_datasets, valid_datasets, args, task_idx=None, prom
         net = MaskDecoderHQ(args.model_type)
         net.cuda()
         net = torch.nn.parallel.DistributedDataParallel(net, device_ids=[args.gpu], find_unused_parameters=args.find_unused_params)
-        net.module.load_state_dict(torch.load('work_dirs/hq_sam_b/epoch_11.pth'))
+        net.module.load_state_dict(torch.load('./pretrained_checkpoint/pretrain_maskDecoderHQ.pth'))
 
         print("--- define optimizer ---")
         BEST_LR = [1e-2, 1e-2, 3e-3, 3e-2, 3e-2, 3e-2, 3e-2, 3e-2]
