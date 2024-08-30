@@ -31,9 +31,9 @@ from segment_anything_training.modeling import TwoWayTransformer, MaskDecoder
 from utils.dataloader import get_im_gt_name_dict, create_dataloaders, RandomHFlip, Resize, LargeScaleJitter
 from utils.loss_mask import loss_masks
 import utils.misc as misc
-from my_dataset_info import trainsets_order_map, valid_datasets, train_datasets, membank_datasets
-from my_model import PromptPool, MaskDecoderHQ
-from my_utils import show_anns, show_mask, show_box, show_points, compute_iou, compute_boundary_iou
+from dataset_info import trainsets_order_map, valid_datasets, train_datasets, membank_datasets
+from model import PromptPool, MaskDecoderHQ
+from helper import show_anns, show_mask, show_box, show_points, compute_iou, compute_boundary_iou
 
 
 
@@ -70,7 +70,7 @@ def get_args_parser():
     parser.add_argument('--learning_rate', default=1e-3, type=float)
     parser.add_argument('--start_epoch', default=0, type=int)
     parser.add_argument('--lr_drop_epoch', default=10, type=int)
-    parser.add_argument('--max_epoch_num', default=12, type=int) # 12
+    parser.add_argument('--max_epoch_num', default=24, type=int) # 12
     parser.add_argument('--input_size', default=[1024,1024], type=list)
     parser.add_argument('--batch_size_train', default=4, type=int)
     parser.add_argument('--batch_size_valid', default=1, type=int)
@@ -301,7 +301,7 @@ def train(args, net, sam, optimizer, train_dataloaders, valid_dataloaders, lr_sc
             masks_hq = net(
                 image_embeddings=encoder_embedding, 
                 image_pe=image_pe,
-                sparse_prompt_embeddings=sparse_embeddings, # list, 元素shape取决于是否cat prompt from pool,要么是(1,2,256),要么是(1,27,256)
+                sparse_prompt_embeddings=sparse_embeddings, # list,shape(1,2,256) or (1,27,256), depends on whether append prompts from pool
                 dense_prompt_embeddings=dense_embeddings,
                 multimask_output=False,
                 hq_token_only=True,
@@ -310,8 +310,8 @@ def train(args, net, sam, optimizer, train_dataloaders, valid_dataloaders, lr_sc
             
 
             loss_mask, loss_dice = loss_masks(masks_hq, labels/255.0, len(masks_hq))
-            # print(f'masks_hq mean: {masks_hq.mean()}; max: {masks_hq.max()};') # mean从训练开始时-20，一直保持了下去；max大概是20. 训练
-            # print(masks_hq) 大多数是-20，
+            # print(f'masks_hq mean: {masks_hq.mean()}; max: {masks_hq.max()};') # mean around -20 from start to end；max around 20. 
+            # print(masks_hq) around -20，
             # print(masks_hq.shape) (4,1,256,256)
             # print(labels.shape, (labels/255).sum()) # (4,1,1024,1024) several thousands to hundred of thousands
             loss += loss_mask + loss_dice 
@@ -642,7 +642,7 @@ if __name__ == "__main__":
         wandb.init(mode='disabled')
 
 
-# 配置日志记录器
+
     logging.basicConfig(filename=f'experiment_result_{args.CLmethod}_epoch_{args.max_epoch_num}_lr_{args.learning_rate}.log', 
                         level=logging.INFO, format='%(asctime)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 

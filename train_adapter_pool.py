@@ -32,9 +32,9 @@ from segment_anything_training.modeling import TwoWayTransformer, MaskDecoder
 from utils.dataloader import get_im_gt_name_dict, create_dataloaders, RandomHFlip, Resize, LargeScaleJitter
 from utils.loss_mask import loss_masks
 import utils.misc as misc
-from my_dataset_info import trainsets_order_map, valid_datasets, train_datasets, membank_datasets
-from my_model import PromptPool, MaskDecoderHQ, TaskClassifier
-from my_utils import show_anns, show_mask, show_box, show_points, compute_iou, compute_boundary_iou
+from dataset_info import trainsets_order_map, valid_datasets, train_datasets, membank_datasets
+from model import PromptPool, MaskDecoderHQ, TaskClassifier
+from helper import show_anns, show_mask, show_box, show_points, compute_iou, compute_boundary_iou
 from train_CL import evaluate
 
 
@@ -74,7 +74,7 @@ def get_args_parser():
     parser.add_argument('--learning_rate', default=1e-3, type=float)
     parser.add_argument('--start_epoch', default=0, type=int)
     parser.add_argument('--lr_drop_epoch', default=10, type=int)
-    parser.add_argument('--max_epoch_num', default=12, type=int) # 12
+    parser.add_argument('--max_epoch_num', default=24, type=int) # 12
     parser.add_argument('--input_size', default=[1024,1024], type=list)
     parser.add_argument('--batch_size_train', default=4, type=int)
     parser.add_argument('--batch_size_valid', default=1, type=int)
@@ -313,8 +313,8 @@ def train(adapter_pool, args, net, sam, optimizer, train_dataloaders, valid_data
 
             with torch.no_grad():
                 # pdb.set_trace()
-                batched_output, interm_embeddings = sam(batched_input, multimask_output=False) # batched_output中每个图片都返回一个字典，包括encoder_embed, img_pe等等；interm_embeds shape: [4,64,64,768]
-                # print('interm_embeddings.shape:', interm_embeddings[0].shape) # [4, 64, 64, 768] 4就是batch size
+                batched_output, interm_embeddings = sam(batched_input, multimask_output=False) # in batched_output, every img output a dict，include encoder_embed, img_pe, etc；interm_embeds shape: [4,64,64,768]
+                # print('interm_embeddings.shape:', interm_embeddings[0].shape) # [4, 64, 64, 768] 4 is batch size
                 # print('len of batch:', len(interm_embeddings)) # 4
             
             batch_len = len(batched_output)
@@ -332,7 +332,7 @@ def train(adapter_pool, args, net, sam, optimizer, train_dataloaders, valid_data
             masks_hq = net(
                 image_embeddings=encoder_embedding, 
                 image_pe=image_pe,
-                sparse_prompt_embeddings=sparse_embeddings, # list, 元素shape取决于是否cat prompt from pool,要么是(1,2,256),要么是(1,27,256)
+                sparse_prompt_embeddings=sparse_embeddings, # list,shape(1,2,256) or (1,27,256), depends on whether append prompts from pool
                 dense_prompt_embeddings=dense_embeddings,
                 multimask_output=False,
                 hq_token_only=True,
@@ -341,8 +341,8 @@ def train(adapter_pool, args, net, sam, optimizer, train_dataloaders, valid_data
             
 
             loss_mask, loss_dice = loss_masks(masks_hq, labels/255.0, len(masks_hq))
-            # print(f'masks_hq mean: {masks_hq.mean()}; max: {masks_hq.max()};') # mean从训练开始时-20，一直保持了下去；max大概是20. 训练
-            # print(masks_hq) 大多数是-20，
+            # print(f'masks_hq mean: {masks_hq.mean()}; max: {masks_hq.max()};') # mean around -20 from start to end；max around 20. 
+            # print(masks_hq) around -20，
             # print(masks_hq.shape) (4,1,256,256)
             # print(labels.shape, (labels/255).sum()) # (4,1,1024,1024) several thousands to hundred of thousands
             loss += loss_mask + loss_dice 
@@ -457,7 +457,7 @@ def evaluate_adapter_pool(task_classifier, args, adapter_pool, sam, valid_datalo
                 feat = sam(batched_input, multimask_output=False, cls_token=task_classifier.module.cls_token)
                 feat = feat[:, 0, :]
             
-            # 计算 task classification acc 并选择 adapter
+            # get task classification acc, then adapter
             output = task_classifier(feat)
             acc = (output.argmax(dim=1) == task_id).float().mean()
             
@@ -465,7 +465,7 @@ def evaluate_adapter_pool(task_classifier, args, adapter_pool, sam, valid_datalo
             adapter = adapter_pool[predicted_task]
             adapter.eval()
 
-            # 使用对应的adapter来得到segmentation
+            # load the corresponding adapter
             batch_len = len(batched_output)
             encoder_embedding = torch.cat([batched_output[i_l]['encoder_embedding'] for i_l in range(batch_len)], dim=0)
             image_pe = [batched_output[i_l]['image_pe'] for i_l in range(batch_len)]
@@ -482,7 +482,7 @@ def evaluate_adapter_pool(task_classifier, args, adapter_pool, sam, valid_datalo
                 interm_embeddings=interm_embeddings,
             )
 
-            if args.demo_results and i < 29: # 各task中最小的validset就是29
+            if args.demo_results and i < 29: # smallest validset has 29 samples
                 utils.save_image(inputs_val, f'demo_imgs/task{k}_id{i}_img.png', normalize=True)
                 utils.save_image(labels_val, f'demo_imgs/task{k}_id{i}_gt.png')
                 utils.save_image(masks_hq, f'demo_imgs/task{k}_id{i}_{args.CLmethod}.png')
@@ -530,7 +530,6 @@ if __name__ == "__main__":
         wandb.init(mode='disabled')
 
 
-# 配置日志记录器
     logging.basicConfig(filename='experiment_result.log', level=logging.INFO, format='%(asctime)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 

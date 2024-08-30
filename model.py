@@ -168,7 +168,7 @@ class MaskDecoderHQ(MaskDecoder):
         masks_hq = masks[:,slice(self.num_mask_tokens-1, self.num_mask_tokens), :, :]
         
         if hq_token_only:
-            # print(f'masks_hq mean:{masks_hq.mean()}; std:{masks_hq.std()}; max:{masks_hq.max()}') # 和外部的print结果相同，大多是-20左右，max是+20
+            # print(f'masks_hq mean:{masks_hq.mean()}; std:{masks_hq.std()}; max:{masks_hq.max()}') # mean around -20，max around +20
             return masks_hq
         else:
             return masks_sam, masks_hq
@@ -350,20 +350,20 @@ class TaskClassifier(nn.Module):
         """ layer_sizes
         """
         super(TaskClassifier, self).__init__()
-        self.cls_token = nn.Parameter(torch.randn(1, token_len, 768))  # 默认长度为768的cls token
+        self.cls_token = nn.Parameter(torch.randn(1, token_len, 768))  # cls token default length is 768
 
         layers = []
         if len(layer_sizes) >= 3:
             for i in range(len(layer_sizes) - 3):
-                layers.append(nn.Linear(layer_sizes[i], layer_sizes[i+1]))  # 添加线性层
-                layers.append(nn.ReLU())  # 添加ReLU激活函数
-                layers.append(nn.Dropout(dropout_rate))  # 添加Dropout层
+                layers.append(nn.Linear(layer_sizes[i], layer_sizes[i+1]))  # add linear layer
+                layers.append(nn.ReLU())  # add ReLU activation
+                layers.append(nn.Dropout(dropout_rate))  # add dropout layer
         layers.append(nn.Linear(layer_sizes[-2], layer_sizes[-1])) 
 
-        self.classifier_head = nn.Sequential(*layers)  # 构建 MLP 分类头
+        self.classifier_head = nn.Sequential(*layers)  # combine all layers
 
     def forward(self, inputs):
-        # cls_token = self.cls_token.expand(inputs.shape[0], -1)  # 将cls token扩展到batch size大小
-        # inputs = torch.cat([cls_token, inputs], axis=1)  # 将cls token添加到输入序列开头
-        logits = self.classifier_head(inputs)  # 前向传播
+        # cls_token = self.cls_token.expand(inputs.shape[0], -1)  # expand cls token to batch size
+        # inputs = torch.cat([cls_token, inputs], axis=1)  # cat cls token to the front
+        logits = self.classifier_head(inputs)  # forward pass
         return logits
