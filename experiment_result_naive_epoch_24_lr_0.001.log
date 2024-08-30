@@ -1,0 +1,57 @@
+2024-08-21 15:52:17 - Task Index: 0
+
+2024-08-21 15:52:22 - Reducer buckets have been rebuilt in this iteration.
+2024-08-21 15:53:36 - Finished epoch:      0
+
+2024-08-21 15:54:16 - iou_0coco_test: 0.7135 (0.7084)  boundary_iou_0coco_test: 0.4724 (0.5619)
+2024-08-21 15:54:38 - iou_1BSData_test: 0.6859 (0.7092)  boundary_iou_1BSData_test: 0.6859 (0.7092)
+2024-08-21 15:54:45 - iou_2RSDD_I_test: 0.6638 (0.6648)  boundary_iou_2RSDD_I_test: 0.6638 (0.6648)
+2024-08-21 15:54:53 - iou_3RSDD_II_test: 0.6098 (0.5831)  boundary_iou_3RSDD_II_test: 0.6098 (0.5831)
+2024-08-21 15:55:09 - iou_4group1: 0.6607 (0.5795)  boundary_iou_4group1: 0.6588 (0.5557)
+2024-08-21 15:55:17 - iou_5group2: 0.7221 (0.6959)  boundary_iou_5group2: 0.4621 (0.5325)
+2024-08-21 15:55:24 - iou_6group3: 0.8075 (0.6330)  boundary_iou_6group3: 0.4793 (0.4031)
+2024-08-21 15:56:19 - iou_7CAMO_test: 0.3208 (0.4941)  boundary_iou_7CAMO_test: 0.2217 (0.3112)
+2024-08-21 15:57:03 - iou_8Polyp_test: 0.1267 (0.2787)  boundary_iou_8Polyp_test: 0.0689 (0.1866)
+2024-08-21 15:58:19 - Finished epoch:      1
+
+2024-08-21 15:59:05 - iou_0coco_test: 0.1707 (0.3868)  boundary_iou_0coco_test: 0.1748 (0.3510)
+2024-08-21 15:59:27 - iou_1BSData_test: 0.6762 (0.7274)  boundary_iou_1BSData_test: 0.6762 (0.7274)
+2024-08-21 15:59:34 - iou_2RSDD_I_test: 0.7925 (0.7632)  boundary_iou_2RSDD_I_test: 0.7925 (0.7632)
+2024-08-21 15:59:43 - iou_3RSDD_II_test: 0.6805 (0.6311)  boundary_iou_3RSDD_II_test: 0.6805 (0.6311)
+2024-08-21 15:59:59 - iou_4group1: 0.4101 (0.3602)  boundary_iou_4group1: 0.4101 (0.3579)
+2024-08-21 16:00:08 - iou_5group2: 0.0606 (0.2281)  boundary_iou_5group2: 0.1215 (0.2262)
+2024-08-21 16:00:15 - iou_6group3: 0.0773 (0.2083)  boundary_iou_6group3: 0.0526 (0.1560)
+2024-08-21 16:01:08 - iou_7CAMO_test: 0.0708 (0.1343)  boundary_iou_7CAMO_test: 0.0679 (0.1136)
+2024-08-21 16:01:49 - iou_8Polyp_test: 0.0182 (0.0360)  boundary_iou_8Polyp_test: 0.0053 (0.0190)
+2024-08-21 16:03:05 - Finished epoch:      2
+
+2024-08-21 16:03:47 - iou_0coco_test: 0.1661 (0.3801)  boundary_iou_0coco_test: 0.1688 (0.3489)
+2024-08-21 16:04:10 - iou_1BSData_test: 0.7754 (0.7410)  boundary_iou_1BSData_test: 0.7754 (0.7410)
+2024-08-21 16:04:17 - iou_2RSDD_I_test: 0.7485 (0.7478)  boundary_iou_2RSDD_I_test: 0.7485 (0.7478)
+2024-08-21 16:04:26 - iou_3RSDD_II_test: 0.5784 (0.5565)  boundary_iou_3RSDD_II_test: 0.5784 (0.5565)
+2024-08-21 16:04:43 - iou_4group1: 0.3345 (0.3390)  boundary_iou_4group1: 0.3301 (0.3345)
+2024-08-21 16:04:52 - iou_5group2: 0.0302 (0.1879)  boundary_iou_5group2: 0.0794 (0.1904)
+2024-08-21 16:04:58 - iou_6group3: 0.0605 (0.2096)  boundary_iou_6group3: 0.0538 (0.1654)
+2024-08-21 16:05:57 - iou_7CAMO_test: 0.1260 (0.1324)  boundary_iou_7CAMO_test: 0.0807 (0.1187)
+2024-08-21 16:06:42 - iou_8Polyp_test: 0.0259 (0.0449)  boundary_iou_8Polyp_test: 0.0103 (0.0253)
+2024-08-21 16:07:58 - Finished epoch:      3
+
+2024-08-21 16:08:40 - iou_0coco_test: 0.0861 (0.3011)  boundary_iou_0coco_test: 0.0812 (0.2867)
+2024-08-21 16:09:02 - iou_1BSData_test: 0.7347 (0.7407)  boundary_iou_1BSData_test: 0.7347 (0.7407)
+2024-08-21 16:09:08 - iou_2RSDD_I_test: 0.7429 (0.7490)  boundary_iou_2RSDD_I_test: 0.7429 (0.7490)
+2024-08-21 16:09:16 - iou_3RSDD_II_test: 0.4783 (0.4961)  boundary_iou_3RSDD_II_test: 0.4783 (0.4961)
+2024-08-21 16:09:32 - iou_4group1: 0.2290 (0.2481)  boundary_iou_4group1: 0.2357 (0.2471)
+2024-08-21 16:09:40 - iou_5group2: 0.0071 (0.1220)  boundary_iou_5group2: 0.0231 (0.1238)
+2024-08-21 16:09:47 - iou_6group3: 0.0176 (0.1487)  boundary_iou_6group3: 0.0142 (0.1256)
+2024-08-21 16:10:45 - iou_7CAMO_test: 0.0257 (0.0486)  boundary_iou_7CAMO_test: 0.0252 (0.0502)
+2024-08-21 16:11:29 - iou_8Polyp_test: 0.0066 (0.0177)  boundary_iou_8Polyp_test: 0.0018 (0.0098)
+2024-08-21 16:14:40 - Task Index: 0
+
+2024-08-21 16:14:46 - Reducer buckets have been rebuilt in this iteration.
+2024-08-21 16:16:00 - Finished epoch:      0
+
+2024-08-21 16:16:43 - iou_0coco_test: 0.6857 (0.6807)  boundary_iou_0coco_test: 0.5118 (0.5451)
+2024-08-21 16:17:04 - iou_1BSData_test: 0.6951 (0.7141)  boundary_iou_1BSData_test: 0.6951 (0.7141)
+2024-08-21 16:17:11 - iou_2RSDD_I_test: 0.6533 (0.6768)  boundary_iou_2RSDD_I_test: 0.6533 (0.6768)
+2024-08-21 16:17:19 - iou_3RSDD_II_test: 0.6721 (0.6422)  boundary_iou_3RSDD_II_test: 0.6721 (0.6422)
+2024-08-21 16:17:35 - iou_4group1: 0.7070 (0.6463)  boundary_iou_4group1: 0.6748 (0.6048)

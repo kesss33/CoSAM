@@ -1,0 +1,39 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+
+
+# Data files, add extensions according to your project needs
+*.csv
+*.dat
+*.json
+*.xml
+*.h5
+*.hdf5
+
+# Model Checkpoints
+*.ckpt
+*.pth
+*.pt
+*.tflite
+*.pb
+*.onnx
+
+# Logs and other output files
+*.log
+*.out
+*.txt
+
+# Directories potentially created during training
+logs/
+output/
