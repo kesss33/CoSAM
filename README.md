@@ -1,10 +1,7 @@
-# Co-SAM: Continual Learning for Segment Anything Model Adaptation
+# Continual Learning for Segment Anything Model Adaptation
 
-CoSAM (Continual Segmentation Adaptation Model) is a deep learning framework designed to enhance segmentation models by incorporating continual learning techniques to adapt dynamically to new, unseen domains without forgetting previously learned information.
-
-## Project Background
-![Co-SAM Benchmark](figures/architecture4.png)
-Traditional segmentation models often struggle with domain shifts that render them less effective outside their training environments. CoSAM addresses this limitation by integrating state-of-the-art continual learning strategies, enabling the model to maintain high performance across a range of challenging segmentation scenarios.
+This paper introduces the CoSAM Benchmark for evaluating Segment Anything Model (SAM) adaptation algorithms in a Continual Learning framework and proposes the Mistrue of Domain Adapters (MoDA) method to help the SAM encoder extract well-separated features for different task domains, and
+then enable adapters to learn task-specific information for continual learning.
 
 ## Installation
 
@@ -40,8 +37,6 @@ https://drive.google.com/file/d/1cwieLjTZZCYcTdzYvOKq2UC__e_B9QN9/view?usp=drive
 
 
 ```bash
-# Naive (sequential adaptation)
-python -m torch.distributed.launch --nproc_per_node=1 train_CL.py --CLmethod naive
 # Joint-Training
 python -m torch.distributed.launch --nproc_per_node=1 train_CL.py
 # Lwf
@@ -52,16 +47,18 @@ python -m torch.distributed.launch --nproc_per_node=1 train_CL.py --CLmethod er
 python -m torch.distributed.launch --nproc_per_node=1 train_CL.py --CLmethod ewc --ewc_weight 10
 # L2P
 python -m torch.distributed.launch --nproc_per_node=1 train_CL.py --CLmethod l2p
-# L2A (ours)
+# HQ-SAM (Naive sequential training)
+python -m torch.distributed.launch --nproc_per_node=1 train_CL.py --CLmethod naive
+# HQ-SAM + MoDA(ours)
 python -m torch.distributed.launch --nproc_per_node=1 train_adapter_pool.py --buffer_size 10
 
 ```
-![Learning to Adapt](figures/architecture3.png)
+![MoDA](figures/architecture3.png)
 ## Evaluate
 ```bash
 # L2P
 python -m torch.distributed.launch --nproc_per_node=1 train_CL.py --eval --CLmethod l2p --restore-model "saved_ckpt"
-# L2A (ours)
+# HQ-SAM + MoDA (ours)
 python -m torch.distributed.launch --nproc_per_node=1 train_adapter_pool.py --eval
 # Others
 python -m torch.distributed.launch --nproc_per_node=1 train_CL.py --eval --restore-model "saved_ckpt"
