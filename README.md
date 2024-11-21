@@ -53,7 +53,7 @@ python -m torch.distributed.launch --nproc_per_node=1 train_CL.py --CLmethod nai
 python -m torch.distributed.launch --nproc_per_node=1 train_adapter_pool.py --buffer_size 10
 
 ```
-![MoDA](figures/architecture3.png)
+![MoDA](figures/MoDA architecture.pdf)
 ## Evaluate
 ```bash
 # L2P
@@ -67,4 +67,4 @@ python -m torch.distributed.launch --nproc_per_node=1 train_CL.py --eval --resto
 ## Results
 
 
-![Comparison](figures/comparison.png)
+![Comparison](figures/main-results-table.png)
