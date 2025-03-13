@@ -3,7 +3,7 @@
 This paper introduces the CoSAM Benchmark for evaluating Segment Anything Model (SAM) adaptation algorithms in a Continual Learning framework and proposes the Mistrue of Domain Adapters (MoDA) method to help the SAM encoder extract well-separated features for different task domains, and
 then enable adapters to learn task-specific information for continual learning.
 
-## Installation
+## Installation  test
 
 To set up a local development environment, follow these steps:
 
